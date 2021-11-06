@@ -1,10 +1,17 @@
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
+from . import login_manager
+from flask_login import UserMixin
 
-class User(db.Model): #de.model connect our class to the database and allow communication.
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+class User(UserMixin,db.Model): #de.model connect our class to the database and allow communication.
     __tablename__ = 'users'
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(255))
+    email = db.Column(db.String(255),unique = True,index = True)
     pass_secure=db.Column(db.String(255)) #column for password authentication.
 
     @property
@@ -21,3 +28,5 @@ class User(db.Model): #de.model connect our class to the database and allow comm
 
     def __rept__(self):
         return f'User {self.username}'
+
+        
