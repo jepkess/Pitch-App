@@ -2,6 +2,7 @@ import os # os module allow the application to interacts with the operating syst
 
 class config:
     SECRET_KEY =os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:1234@localhost/pitch'
 
 
 class Prodconfig(config):
