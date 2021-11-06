@@ -13,7 +13,14 @@ def create_app(config_name):
   app.config.from_object(config_options[config_name])
 
   #Initializing the flask-extensions
-  bootstrap.init_app(app)
+  bootstrap.init_app(app) #calling the init_app on the extension to complete the initialization.
+
+  #Registering the Blueprint
+  from .main import main as main_blueprint
+  app.register_blueprint(main_blueprint)
+
+  return app
+
   
-from app.main import views
+    
 
