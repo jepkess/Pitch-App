@@ -1,13 +1,13 @@
 from flask import render_template
-from app import app
+from . import main
 
 #views
 
-@app.route('/')
+@main.route('/')
 def index():
     """
     function that return the index page and its data
     """
     return render_template('index.html')
-    
+
    
