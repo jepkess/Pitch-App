@@ -32,9 +32,11 @@ class User(UserMixin,db.Model): #de.model connect our class to the database and 
         return f'User {self.username}'
 
 class Pitch(db.Model):
+        __tablename__ = 'pitches'
         id=db.Column(db.Integer, primary_key=True)
         pitch_title=db.Column(db.String(255)) 
-        pitch_description=db.Column(db.String(255)) 
+        pitch_description=db.Column(db.String(255))
+        category = db.Column(db.String)
         posted=db.Column(db.DateTime,default=datetime.utcnow)
         user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
            
@@ -52,11 +54,9 @@ class Post(db.Model):
      title = db.Column(db.String(255))
      user_id = db.Column(db.String(255))
      post = db.Column(db.String (255))
-#      comment = db.relationship('Comment', backref='post', lazy='dynamic')
      category = db.Column(db.String(255))
      date_created = db.Column(db.DateTime, default=datetime.utcnow)
-#      likes = db.relationship('Likes', backref='post', lazy='dynamic')
-#      dislikes = db.relationship('Dislikes', backref='post', lazy='dynamic')
+
 
      def save(self):
         db.session.add(self)
