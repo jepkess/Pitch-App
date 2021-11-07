@@ -1,3 +1,4 @@
+from sqlalchemy.orm import backref
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import login_manager
@@ -13,8 +14,10 @@ class User(UserMixin,db.Model): #de.model connect our class to the database and 
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)
+    pitches=db.relationship('Pitches',backref='user',lazy="dynamic")
     pass_secure=db.Column(db.String(255)) #column for password authentication.
-    pitch=db.relationship('Pitch',backref='user',lazy="dynamic")
+    comments=db.relationship('Comments',backref='user',lazy="dynamic")
+   
 
     @property
     def password(self):
@@ -31,69 +34,69 @@ class User(UserMixin,db.Model): #de.model connect our class to the database and 
     def __rept__(self):
         return f'User {self.username}'
 
-class Pitch(db.Model):
+        
+
+class Pitches(db.Model):
         __tablename__ = 'pitches'
         id=db.Column(db.Integer, primary_key=True)
         pitch_title=db.Column(db.String(255)) 
         pitch_description=db.Column(db.String(255))
         category = db.Column(db.String)
+        comment=db.relationship('Comments',backref='pitch',lazy="dynamic")
         posted=db.Column(db.DateTime,default=datetime.utcnow)
         user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
            
-        def save(self):
+        def save_pitch(self):
+
           db.session.add(self)
           db.session.commit()
+
+        @classmethod
+        def get_pitches(cls,id):
+                pitches =Pitches.query.filter_by(pitch_id=id).all()
+                return pitches
 
         
         def __repr__(self):
          return f'Comments: {self.pitch_title}'
-        
-class Post(db.Model):
-     __tablename__ = 'posts'
-     id = db.Column(db.Integer, primary_key=True)
-     title = db.Column(db.String(255))
-     user_id = db.Column(db.String(255))
-     post = db.Column(db.String (255))
-     category = db.Column(db.String(255))
-     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
-
-     def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-     def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-     def __repr__(self):
-        return f"Post Title: {self.title}"
-
-# class Comment(db.Model):
-#         __tablename__ ='comments'
-#         id= db.Column(db.Integer, primary_key=True)
-#         user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#         post_id=db.Column(db.Integer, db.ForeignKey('posts_id')) 
+# class Comments(db.Model):
+#         __tablename__='comments'
+#         id=db.Column(db.Integer, primary_key=True)
 #         comment=db.Column(db.Text())
+#         user_id=db.Column(db.Integer, db.ForeignKey('users_id')) 
+#         pitch_id=db.Column(db.Integer, db.ForeignKey('pitches_id'))
 
-#         def save(self):
-#          db.session.add(self)
-#          db.session.commit()
+#         def save_comment(self):
+#           db.session.add(self)
+#           db.session.commit() 
 
 #         @classmethod
-#         def get_comments(cls, post_id):
-#           comments = Comment.query.filter_by(post_id=post_id).all()
-#           return comments 
-
-       
-
-#         def delete(self):
-#           db.session.delete(self)
-#           db.session.commit()
+#         def get_comment(cls,pitch_id):
+#           comment = Comments.query.filter_by(pitch_id=pitch_id).all()
+#           return comment  
 
 #         def __repr__(self):
-#          return f'Comments: {self.comment}'       
+#           return f'Comments: {self.comment}'
 
-        
+class Comments(db.Model):
+    __tablename__ = 'comments'
+    id= db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.Text())
+    user_id= db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
+    pitch_id= db.Column(db.Integer,db.ForeignKey('pitches.id'), nullable=False)
 
-   
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    @classmethod
+    def get_comment(cls,pitch_id):
+        comment = Comments.query.filter_by(pitch_id=pitch_id).all()
+        return comment
+
+    def __repr__(self):
+        return f'Comments: {self.comment}'
+       
+ 
+
