@@ -1,13 +1,48 @@
-<!-- {% extends 'base.html'%}
-{% import 'bootstrap/wtf.html' as wtf %}
+{%extends 'base.html'%}
+{%block content %}
+{% import 'bootstrap/wtf.html' as wtf%}
 
-{% block content %}
-    <div class="container">
-        <div class="row col-md-12">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">{{wtf.quick_form(form)}}</div>
-            <div class="col-md-2"></div>
+{%block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename= 'css/styles.css')}}">
+{%endblock %}
+
+<div class="container">
+    <div class="card">
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+              <a class="btn btn-info" type="button" href="/newpitch">Create new pitch</a>
+              
+            </form>
+          </nav>
+        <h3>Welcome , view pitches here</h3>
+        <div class="card">
+            <ul>
+                {% for pitch in pitches%}
+                <div class="card-body bg-secondary">
+                    <li>
+                        <h3>{{pitch.title}}</h3>
+                    </li>
+                    <h6>{{pitch.category}}</h6>
+                    <p>{{pitch.description}}</p>
+                    <p>posted at: <em>{{pitch.posted}}</em></p>
+                    <button class="btn btn-success">Like</button><button class="btn btn-danger">Dislike</button>
+                 <ul>
+                    {%for comment in comments %}
+                    <li>>>
+                        {{comment.comment}}
+                    </li>
+                    {%endfor %}
+                 </ul>
+
+                    {{wtf.quick_form(commentform)}}
+                    <hr>
+
+                </div>
+                {% endfor %}
+            </ul>
+
+
         </div>
     </div>
-   
-{% endblock%} -->
+    {% endblock %}
