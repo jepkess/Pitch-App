@@ -9,7 +9,7 @@ def index():
     """
     function that return the index page and its data
     """
-    return render_template('index.html')
+    return render_template('home.html')
     
 
 
