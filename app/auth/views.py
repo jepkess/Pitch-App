@@ -5,6 +5,7 @@ from ..models import User
 from .forms import RegistrationForm,LoginForm
 from .. import db
 from flask_login import login_user,logout_user,login_required
+from ..email import mail_message
 
 @auth.route('/login',methods=['GET','POST'])
 def login(): # login view function that renders the template file.
@@ -36,8 +37,27 @@ def register():
         user = User(email = form.email.data, username = form.username.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        mail_message("Welcome to PitchApp","email/welcome_user",user.email,user=user)
         return redirect(url_for('auth.login'))
+
+        
         
     return render_template('auth/register.html',registration_form = form,title=title) 
+
+# @auth.route('/register',methods = ["GET","POST"])
+# def register():
+#     title = "New Account"
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         user = User(email = form.email.data, username = form.username.data,password = form.password.data)
+#         db.session.add(user)
+#         db.session.commit()
+
+#         mail_message("Welcome to PitchApp","email/welcome_user",user.email,user=user)
+
+#         return redirect(url_for('auth.login'))
+        
+#     return render_template('auth/register.html',registration_form = form)    
 
        
