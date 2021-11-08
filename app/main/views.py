@@ -1,9 +1,9 @@
-from flask import render_template,redirect,url_for,abort
+from flask import render_template,redirect,url_for,abort,request
 from . import main
 from flask_login import login_required,current_user
 from .forms import PitchForm,CommentsForm,UpdateProfile
 from ..models import Pitches, Comments,User
-from .. import db
+from .. import db,photos
 
 #views
 @login_required
@@ -81,17 +81,28 @@ def update_profile(uname):
     if user is None:
         abort(404)
 
-    form = UpdateProfile()
+    add_comment_form = UpdateProfile()
 
-    if form.validate_on_submit():
-        user.bio = form.bio.data
+    if add_comment_form.validate_on_submit():
+        user.bio = add_comment_form.bio.data
 
         db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
 
-    return render_template('profile/update.html',form =form)
+    return render_template('profile/update.html',add_comment_form =add_comment_form)
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))    
     
 
 
