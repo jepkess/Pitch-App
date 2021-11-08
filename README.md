@@ -18,10 +18,8 @@ As a user of the web application you will be able to:
 
   
 ## Specifications
-* user Authentication
-* crating a pitch
-* 
-*  
+1. user Authentication
+2.  crating a pitch  
 ### Prerequisites
 * python3.8
 * virtual environment
