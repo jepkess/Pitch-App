@@ -16,6 +16,8 @@ class config:
 
 class Prodconfig(config):
     SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL')
+    if SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI.startswith("postges://"):
+        SQLALCHEMY_DATABASE_URI=SQLALCHEMY_DATABASE_URI.replace("postgres://","postgesql://", 1)
     """
     configuring the application on the production mode.
     """ 
