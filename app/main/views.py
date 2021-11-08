@@ -6,7 +6,6 @@ from ..models import Pitches, Comments,User
 from .. import db,photos
 
 #views
-@login_required
 @main.route('/')
 def index():
     """
