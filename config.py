@@ -21,7 +21,7 @@ class Prodconfig(config):
     """
     configuring the application on the production mode.
     """ 
-    pass
+    
 
 class Devconfig(config):
     DEBUG=True
