@@ -67,7 +67,7 @@ Open [localhost:5000](http://127.0.0.1:5000)
 5. CSS
 
 ## live link
-[view](https://pitchapplication.herokuapp.com/)
+[view](https://pitchapplication.herokuapp.com)
 
 ### Licence
 This project is under the  [MIT](LICENSE.md) licence
