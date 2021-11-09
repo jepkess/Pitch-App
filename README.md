@@ -59,12 +59,15 @@ python3.8 manage.py runserver
 Open [localhost:5000](http://127.0.0.1:5000)
 ## Testing the Application
 `python3.8 manager.py test`
-## Built With
+## Technologies used
 1.  python 3.8 version
 2. Flask
 3.  Boostrap
 4.  HTML
 5. CSS
+
+## live link
+[view](https://pitchapplication.herokuapp.com/)
 
 ### Licence
 This project is under the  [MIT](LICENSE.md) licence
