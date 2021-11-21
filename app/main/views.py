@@ -62,7 +62,7 @@ def single_pitch():
     
     return render_template('pitch.html', pitches=all_pitches,commentform=form,comments=comments)
 
-#user profile function
+#user profile view function.
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()

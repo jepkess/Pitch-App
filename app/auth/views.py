@@ -43,7 +43,7 @@ def register():
 
         
         
-    return render_template('auth/register.html',registration_form = form,title=title) 
+    return render_template('auth/register.html',form = form,title=title) 
 
 # @auth.route('/register',methods = ["GET","POST"])
 # def register():
